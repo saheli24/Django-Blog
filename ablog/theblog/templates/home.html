@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <h1>Posts</h1>
+    <hr>
+  {% for post in object_list %}
+  <div class="col-sm-6 mb-3 mb-sm-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'article-detail' post.pk %}" class="btn btn-secondary btn-lg">{{ post.title }}</a></h5>
+        <p class="card-text">
+          <a href="{% url 'category' post.category|slugify %}" class="btn btn-info btn-sm"> {{ post.category }}</a>
+        </p>
+
+        By: {{ post.author.first_name }} {{ post.author.last_name }} on {{ post.post_date }}
+
+        <br><br/>
+        Snippet: {{ post.snippet }}
+
+        <br/><br/>
+        {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+        <a href="{% url 'update_post' post.pk %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete</a>
+        {% endif %}
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

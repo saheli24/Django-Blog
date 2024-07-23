@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %} Edit Post {% endblock %}
+
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+
+
+            <h1>Update Post</h1>
+            <br><br/>
+
+            <div class="form-group">
+                <form method = "POST">
+                    {%csrf_token%}
+                    {{form.media}}
+                    {{form.as_p}}
+                    <button class="btn btn-success">Update</button>
+                    <br/><br/>
+                    <a href="{% url 'home' %}" class="btn btn-secondary" >Back</a>
+                </form>
+            </div>
+
+            <br><br/>
+        {% else %}
+            NOT ALLOWED
+        {% endif %}
+    {% else %}
+        NOT ALLOWED
+    {% endif %}
+
+
+{% endblock %}
